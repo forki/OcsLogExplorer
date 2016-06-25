@@ -134,7 +134,7 @@ Target "Build" (fun _ ->
 #if MONO
     |> MSBuildReleaseExt "" [ ("DefineConstants","MONO") ] "Rebuild"
 #else
-    |> MSBuildRelease "" "Rebuild"
+    |> MSBuildRelease "" "Build"
 #endif
     |> ignore
 )
