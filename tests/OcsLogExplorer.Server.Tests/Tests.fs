@@ -1,5 +1,6 @@
 module OcsLogExplorer.Server.Tests
 
+open OcsLogExplorer
 open OcsLogExplorer.Server
 open NUnit.Framework
 
