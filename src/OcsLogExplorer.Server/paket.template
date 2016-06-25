@@ -1,0 +1,25 @@
+type project
+title
+    OcsLogExplorer
+owners
+    MarcinJuraszek
+authors 
+    MarcinJuraszek
+projectUrl
+    http://github.com/MarcinJuraszek/OcsLogExplorer
+iconUrl
+    https://raw.githubusercontent.com/[github-user]/OcsLogExplorer/master/docs/files/img/logo.png
+licenseUrl
+    http://github.com/[github-user]/OcsLogExplorer/blob/master/LICENSE.txt
+requireLicenseAcceptance
+    false
+copyright
+    Copyright 2015
+tags
+    
+summary
+    
+description
+    Description not set
+
+
