@@ -5,8 +5,17 @@ module ULS =
     open System.Globalization
     open System.IO
 
+    type Level =
+        | VerboseEx
+        | Verbose
+        | Medium
+        | Monitorable
+        | Hight
+        | Assert
+        | Unexpected
+
     /// ULS LogItem data - represents a single line from ULS log file
-    type public LogItem = {
+    type LogItem = {
         Machine: string
         LogIndex: int64
         TimeStamp: DateTime
@@ -15,7 +24,7 @@ module ULS =
         Product: string
         Category: string
         EventID: string
-        Level: string
+        Level: Level
         Message: string
         Correlation: Guid option
         LineIndex: int64
@@ -25,7 +34,27 @@ module ULS =
     [<Literal>]
     let timeStampFormat = @"dd/MM/yyyy HH:mm:ss.ff"
 
-    let public parseLine (line: string) =
+    let parseLevel = function
+        | "VerboseEx" -> Some Level.VerboseEx
+        | "Verbose" -> Some Level.Verbose
+        | "Medium" -> Some Level.Medium
+        | "Monitorable" -> Some Level.Monitorable
+        | "Hight" -> Some Level.Hight
+        | "Assert" -> Some Level.Assert
+        | "Unexpected" -> Some Level.Unexpected
+        | _ -> None
+
+    let writeLevel = function
+        | VerboseEx -> "VerboseEx"
+        | Verbose -> "Verbose"
+        | Medium -> "Medium"
+        | Monitorable -> "Monitorable"
+        | Hight -> "Hight"
+        | Assert -> "Assert"
+        | Unexpected -> "Unexpected"
+
+    /// Parses a single ULS-formatted line
+    let parseLine (line: string) =
         let parts = line.Split [|'\t'|]
         match parts.Length with
         | 11 ->
@@ -41,8 +70,9 @@ module ULS =
                     | true -> Some correlationValue
                     | false -> None
                 let lineIndexIsValid, lineIndex = Int64.TryParse(parts.[9])
-                match logIndexIsValid, timeStampIsValid, lineIndexIsValid with
-                | true, true, true ->
+                let level = parseLevel (parts.[6].Trim())
+                match logIndexIsValid, timeStampIsValid, lineIndexIsValid, level with
+                | true, true, true, Some level ->
                     Some {
                         Machine = metadata.[0].Trim()
                         LogIndex = logIndex
@@ -52,13 +82,13 @@ module ULS =
                         Product = parts.[3].Trim()
                         Category = parts.[4].Trim()
                         EventID = parts.[5].Trim()
-                        Level = parts.[6].Trim()
+                        Level = level
                         Message = parts.[7].Trim()
                         Correlation = correlation
                         LineIndex = lineIndex
                         FileName = parts.[10].Trim()
                     }
-                | _, _, _-> None
+                | _, _, _, _ -> None
             | _ -> None
         | _ -> None
 
@@ -67,14 +97,15 @@ module ULS =
         | Some correlation -> correlation.ToString("d")
         | None -> ""
 
-    let public writeLine logItem =
+    /// Formats a LogItem in ULS way
+    let writeLine logItem =
         sprintf "%s,%d,%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%d\t%s"
             logItem.Machine logItem.LogIndex (logItem.TimeStamp.ToString(timeStampFormat, CultureInfo.InvariantCulture)) logItem.Process
-            logItem.Thread logItem.Product logItem.Category logItem.EventID logItem.Level logItem.Message
+            logItem.Thread logItem.Product logItem.Category logItem.EventID (writeLevel logItem.Level) logItem.Message
             (writeCorrelation logItem.Correlation) logItem.LineIndex logItem.FileName
 
     /// Reads ULS logs from a file in a lazy-evaludated way. 
-    let public fromFile (path: string) : LogItem seq = seq {
+    let fromFile (path: string) : LogItem seq = seq {
         use sr = new StreamReader(path)
         while not sr.EndOfStream do
             let logItem = sr.ReadLine() |> parseLine
@@ -84,6 +115,6 @@ module ULS =
     }
 
     /// Writes provided LogItems into a file.
-    let public toFile (logs: LogItem seq) (path: string) =
+    let toFile (path: string) (logs: LogItem seq) =
         use sw = new StreamWriter(path)
         logs |> Seq.iter (fun logItem -> writeLine logItem |> sw.WriteLine)
