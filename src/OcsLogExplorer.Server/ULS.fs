@@ -2,6 +2,7 @@
 
 module ULS =
     open System
+    open System.Globalization
     open System.IO
 
     /// ULS LogItem data - represents a single line from ULS log file
@@ -21,6 +22,9 @@ module ULS =
         FileName: string
     }
 
+    [<Literal>]
+    let timeStampFormat = @"dd/MM/yyyy HH:mm:ss.ff"
+
     let public parseLine (line: string) =
         let parts = line.Split [|'\t'|]
         match parts.Length with
@@ -30,7 +34,7 @@ module ULS =
             | 3 ->
                 // parse non-string data first
                 let logIndexIsValid, logIndex = Int64.TryParse(metadata.[1])
-                let timeStampIsValid, timeStamp = DateTime.TryParseExact(metadata.[2].Trim(), @"dd/MM/yyyy hh:mm:ss.ff", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None)
+                let timeStampIsValid, timeStamp = DateTime.TryParseExact(metadata.[2].Trim(), timeStampFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal)
                 let correlationIsValid, correlation = Guid.TryParse(parts.[8])
                 let lineIndexIsValid, lineIndex = Int64.TryParse(parts.[9])
                 match logIndexIsValid, timeStampIsValid, correlationIsValid, lineIndexIsValid with
@@ -53,14 +57,24 @@ module ULS =
                 | _, _, _, _-> None
             | _ -> None
         | _ -> None
-        
 
-        
+    let public writeLine logItem =
+        sprintf "%s,%d,%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%d\t%s"
+            logItem.Machine logItem.LogIndex (logItem.TimeStamp.ToString(timeStampFormat, CultureInfo.InvariantCulture)) logItem.Process
+            logItem.Thread logItem.Product logItem.Category logItem.EventID logItem.Level logItem.Message
+            (logItem.Correlation.ToString("d")) logItem.LineIndex logItem.FileName
 
     /// Reads ULS logs from a file in a lazy-evaludated way. 
-    let public fromFile (path: string) : LogItem seq =
-        Seq.empty
+    let public fromFile (path: string) : LogItem seq = seq {
+        use sr = new StreamReader(path)
+        while not sr.EndOfStream do
+            let logItem = sr.ReadLine() |> parseLine
+            match logItem with
+            | Some logItem -> yield logItem
+            | None -> ()
+    }
 
     /// Writes provided LogItems into a file.
     let public toFile (logs: LogItem seq) (path: string) =
-        ()
+        use sw = new StreamWriter(path)
+        logs |> Seq.iter (fun logItem -> writeLine logItem |> sw.WriteLine)
