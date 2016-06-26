@@ -60,7 +60,7 @@
   <Import Project="..\..\.paket\paket.targets" />
   <ItemGroup>
     <Compile Include="ULS.fs" />
-    <Compile Include="Library.fs" />
+    <Compile Include="OCSULS.fs" />
     <None Include="Script.fsx" />
     <None Include="paket.references" />
     <None Include="paket.template" />

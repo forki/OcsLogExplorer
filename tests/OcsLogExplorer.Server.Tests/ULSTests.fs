@@ -16,7 +16,7 @@ module ULSTests =
 
     [<Test>]
     let ``lineParse returns correct LogItem on valid input`` () =
-        let line = "WT1WACWEB134,190442935,04/01/2016 00:42:37.83 	w3wp.exe (0x3324)                       	0x24B0	Hosted Services Infrastructure	Services Infrastructure Health	a9mkg	Verbose 	[WacCore] is running and was started at [03/31/2016 21:41:04].	9009a7d3-8120-43ee-9c80-ddd570873310	2202	E:\Data\Logs\ULS\MineCart\WT1WACWEB134-20160401-0042.log"
+        let line = @"06/18/2016 17:28:37.65 	telemetrywatchdog.exe (0x1CB8)          	0x1CBC	Hosted Services Infrastructure	Services Infrastructure Health	aruwk	Medium  	Read sleep interval setting (""WatchdogSleepDelayInSeconds"") from configuration store, value = 240 seconds	0a252638-0a3e-43f6-bf08-3b45178436a7"
 
         let result = parseLine line
 
@@ -24,24 +24,20 @@ module ULSTests =
 
         match result with 
         | Some logLine ->
-            logLine.Machine |> should equal "WT1WACWEB134"
-            logLine.LogIndex |> should equal 190442935L
-            logLine.TimeStamp |> should equal (new DateTime(2016, 1, 4, 0, 42, 37, 830, DateTimeKind.Utc))
-            logLine.Process |> should equal "w3wp.exe (0x3324)"
-            logLine.Thread |> should equal "0x24B0"
-            logLine.Product |> should equal "Hosted Services Infrastructure"
+            logLine.TimeStamp |> should equal (DateTime(2016, 6, 18, 17, 28, 37, 650, DateTimeKind.Utc))
+            logLine.Process |> should equal "telemetrywatchdog.exe (0x1CB8)"
+            logLine.Thread |> should equal "0x1CBC"
+            logLine.Area |> should equal "Hosted Services Infrastructure"
             logLine.Category |> should equal "Services Infrastructure Health"
-            logLine.EventID |> should equal "a9mkg"
-            logLine.Level |> should equal Level.Verbose
-            logLine.Message |> should equal "[WacCore] is running and was started at [03/31/2016 21:41:04]."
-            logLine.Correlation |> should equal (Some (new Guid("9009a7d3-8120-43ee-9c80-ddd570873310")))
-            logLine.LineIndex |> should equal 2202L
-            logLine.FileName |> should equal "E:\Data\Logs\ULS\MineCart\WT1WACWEB134-20160401-0042.log"
+            logLine.EventID |> should equal "aruwk"
+            logLine.Level |> should equal Level.Medium
+            logLine.Message |> should equal @"Read sleep interval setting (""WatchdogSleepDelayInSeconds"") from configuration store, value = 240 seconds"
+            logLine.Correlation |> should equal (Some (Guid("0a252638-0a3e-43f6-bf08-3b45178436a7")))
         | None -> ()
 
     [<Test>]
     let ``lineParse returns correct LogItem on valid input even without Correlation`` () =
-        let line = "WT1WACWEB134,190442935,04/01/2016 00:42:37.83 	w3wp.exe (0x3324)                       	0x24B0	Hosted Services Infrastructure	Services Infrastructure Health	a9mkg	Verbose 	[WacCore] is running and was started at [03/31/2016 21:41:04].		2202	E:\Data\Logs\ULS\MineCart\WT1WACWEB134-20160401-0042.log"
+        let line = @"06/18/2016 17:28:37.65 	telemetrywatchdog.exe (0x1CB8)          	0x1CBC	Hosted Services Infrastructure	Services Infrastructure Health	aruwk	Medium  	Read sleep interval setting (""WatchdogSleepDelayInSeconds"") from configuration store, value = 240 seconds	 "
 
         let result = parseLine line
 
@@ -49,24 +45,20 @@ module ULSTests =
 
         match result with 
         | Some logLine ->
-            logLine.Machine |> should equal "WT1WACWEB134"
-            logLine.LogIndex |> should equal 190442935L
-            logLine.TimeStamp |> should equal (new DateTime(2016, 1, 4, 0, 42, 37, 830, DateTimeKind.Utc))
-            logLine.Process |> should equal "w3wp.exe (0x3324)"
-            logLine.Thread |> should equal "0x24B0"
-            logLine.Product |> should equal "Hosted Services Infrastructure"
+            logLine.TimeStamp |> should equal (DateTime(2016, 6, 18, 17, 28, 37, 650, DateTimeKind.Utc))
+            logLine.Process |> should equal "telemetrywatchdog.exe (0x1CB8)"
+            logLine.Thread |> should equal "0x1CBC"
+            logLine.Area |> should equal "Hosted Services Infrastructure"
             logLine.Category |> should equal "Services Infrastructure Health"
-            logLine.EventID |> should equal "a9mkg"
-            logLine.Level |> should equal Level.Verbose
-            logLine.Message |> should equal "[WacCore] is running and was started at [03/31/2016 21:41:04]."
+            logLine.EventID |> should equal "aruwk"
+            logLine.Level |> should equal Level.Medium
+            logLine.Message |> should equal @"Read sleep interval setting (""WatchdogSleepDelayInSeconds"") from configuration store, value = 240 seconds"
             logLine.Correlation |> should equal None
-            logLine.LineIndex |> should equal 2202L
-            logLine.FileName |> should equal "E:\Data\Logs\ULS\MineCart\WT1WACWEB134-20160401-0042.log"
         | None -> ()
 
     [<Test>]
     let ``lineParse returns None for unknown Log.Level value`` () =
-        let line = "WT1WACWEB134,190442935,04/01/2016 00:42:37.83 	w3wp.exe (0x3324)                       	0x24B0	Hosted Services Infrastructure	Services Infrastructure Health	a9mkg	BadLevel 	[WacCore] is running and was started at [03/31/2016 21:41:04].	9009a7d3-8120-43ee-9c80-ddd570873310	2202	E:\Data\Logs\ULS\MineCart\WT1WACWEB134-20160401-0042.log"
+        let line = @"06/18/2016 17:28:37.65 	telemetrywatchdog.exe (0x1CB8)          	0x1CBC	Hosted Services Infrastructure	Services Infrastructure Health	aruwk	BadLevel  	Read sleep interval setting (""WatchdogSleepDelayInSeconds"") from configuration store, value = 240 seconds	0a252638-0a3e-43f6-bf08-3b45178436a7"
 
         let result = parseLine line
 
@@ -75,47 +67,39 @@ module ULSTests =
     [<Test>]
     let ``writeLine returns correct string`` () =
         let logItem = {
-            Machine = "WT1WACWEB134"
-            LogIndex = 190442935L
-            TimeStamp = (new DateTime(2016, 1, 4, 0, 42, 37, 830, DateTimeKind.Utc))
-            Process = "w3wp.exe (0x3324)"
-            Thread = "0x24B0"
-            Product = "Hosted Services Infrastructure"
+            TimeStamp = (DateTime(2016, 6, 18, 17, 28, 37, 650, DateTimeKind.Utc))
+            Process = "telemetrywatchdog.exe (0x1CB8)"
+            Thread = "0x1CBC"
+            Area = "Hosted Services Infrastructure"
             Category = "Services Infrastructure Health"
-            EventID = "a9mkg"
-            Level = Level.Verbose
-            Message = "[WacCore] is running and was started at [03/31/2016 21:41:04]."
-            Correlation = Some (new Guid("9009a7d3-8120-43ee-9c80-ddd570873310"))
-            LineIndex = 2202L
-            FileName = "E:\Data\Logs\ULS\MineCart\WT1WACWEB134-20160401-0042.log"
+            EventID = "aruwk"
+            Level = Level.Medium
+            Message = @"Read sleep interval setting (""WatchdogSleepDelayInSeconds"") from configuration store, value = 240 seconds"
+            Correlation = Some (Guid("0a252638-0a3e-43f6-bf08-3b45178436a7"))
         }
 
         let line = writeLine logItem
 
-        let expected = "WT1WACWEB134,190442935,04/01/2016 00:42:37.83	w3wp.exe (0x3324)	0x24B0	Hosted Services Infrastructure	Services Infrastructure Health	a9mkg	Verbose	[WacCore] is running and was started at [03/31/2016 21:41:04].	9009a7d3-8120-43ee-9c80-ddd570873310	2202	E:\Data\Logs\ULS\MineCart\WT1WACWEB134-20160401-0042.log"
+        let expected = @"06/18/2016 17:28:37.65	telemetrywatchdog.exe (0x1CB8)	0x1CBC	Hosted Services Infrastructure	Services Infrastructure Health	aruwk	Medium	Read sleep interval setting (""WatchdogSleepDelayInSeconds"") from configuration store, value = 240 seconds	0a252638-0a3e-43f6-bf08-3b45178436a7"
         line |> should equal expected
 
     [<Test>]
     let ``writeLine returns correct string even without Correlaiton`` () =
         let logItem = {
-            Machine = "WT1WACWEB134"
-            LogIndex = 190442935L
-            TimeStamp = (new DateTime(2016, 1, 4, 0, 42, 37, 830, DateTimeKind.Utc))
-            Process = "w3wp.exe (0x3324)"
-            Thread = "0x24B0"
-            Product = "Hosted Services Infrastructure"
+            TimeStamp = (DateTime(2016, 6, 18, 17, 28, 37, 650, DateTimeKind.Utc))
+            Process = "telemetrywatchdog.exe (0x1CB8)"
+            Thread = "0x1CBC"
+            Area = "Hosted Services Infrastructure"
             Category = "Services Infrastructure Health"
-            EventID = "a9mkg"
-            Level = Level.Verbose
-            Message = "[WacCore] is running and was started at [03/31/2016 21:41:04]."
+            EventID = "aruwk"
+            Level = Level.Medium
+            Message = @"Read sleep interval setting (""WatchdogSleepDelayInSeconds"") from configuration store, value = 240 seconds"
             Correlation = None
-            LineIndex = 2202L
-            FileName = "E:\Data\Logs\ULS\MineCart\WT1WACWEB134-20160401-0042.log"
         }
 
         let line = writeLine logItem
 
-        let expected = "WT1WACWEB134,190442935,04/01/2016 00:42:37.83	w3wp.exe (0x3324)	0x24B0	Hosted Services Infrastructure	Services Infrastructure Health	a9mkg	Verbose	[WacCore] is running and was started at [03/31/2016 21:41:04].		2202	E:\Data\Logs\ULS\MineCart\WT1WACWEB134-20160401-0042.log"
+        let expected = @"06/18/2016 17:28:37.65	telemetrywatchdog.exe (0x1CB8)	0x1CBC	Hosted Services Infrastructure	Services Infrastructure Health	aruwk	Medium	Read sleep interval setting (""WatchdogSleepDelayInSeconds"") from configuration store, value = 240 seconds	"
         line |> should equal expected
 
 

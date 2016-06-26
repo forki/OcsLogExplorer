@@ -5,6 +5,7 @@ module ULS =
     open System.Globalization
     open System.IO
 
+    /// Log.Level enumeration
     type Level =
         | VerboseEx
         | Verbose
@@ -16,23 +17,19 @@ module ULS =
 
     /// ULS LogItem data - represents a single line from ULS log file
     type LogItem = {
-        Machine: string
-        LogIndex: int64
         TimeStamp: DateTime
         Process: string
         Thread: string
-        Product: string
+        Area: string
         Category: string
         EventID: string
         Level: Level
         Message: string
         Correlation: Guid option
-        LineIndex: int64
-        FileName: string
     }
 
     [<Literal>]
-    let timeStampFormat = @"dd/MM/yyyy HH:mm:ss.ff"
+    let timeStampFormat = @"MM/dd/yyyy HH:mm:ss.ff"
 
     let parseLevel = function
         | "VerboseEx" -> Some Level.VerboseEx
@@ -57,39 +54,32 @@ module ULS =
     let parseLine (line: string) =
         let parts = line.Split [|'\t'|]
         match parts.Length with
-        | 11 ->
-            let metadata = parts.[0].Split [|','|]
-            match metadata.Length with 
-            | 3 ->
-                // parse non-string data first
-                let logIndexIsValid, logIndex = Int64.TryParse(metadata.[1])
-                let timeStampIsValid, timeStamp = DateTime.TryParseExact(metadata.[2].Trim(), timeStampFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal)
-                let correlationIsValid, correlationValue = Guid.TryParse(parts.[8])
-                let correlation =
-                    match correlationIsValid with
-                    | true -> Some correlationValue
-                    | false -> None
-                let lineIndexIsValid, lineIndex = Int64.TryParse(parts.[9])
-                let level = parseLevel (parts.[6].Trim())
-                match logIndexIsValid, timeStampIsValid, lineIndexIsValid, level with
-                | true, true, true, Some level ->
-                    Some {
-                        Machine = metadata.[0].Trim()
-                        LogIndex = logIndex
-                        TimeStamp = timeStamp
-                        Process = parts.[1].Trim()
-                        Thread = parts.[2].Trim()
-                        Product = parts.[3].Trim()
-                        Category = parts.[4].Trim()
-                        EventID = parts.[5].Trim()
-                        Level = level
-                        Message = parts.[7].Trim()
-                        Correlation = correlation
-                        LineIndex = lineIndex
-                        FileName = parts.[10].Trim()
-                    }
-                | _, _, _, _ -> None
-            | _ -> None
+        | 9 ->
+            // parse non-string data first
+            let timeStampIsValid, timeStamp = DateTime.TryParseExact(parts.[0].Trim(), timeStampFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal)
+            let correlationIsValid, correlationValue = Guid.TryParse(parts.[8])
+            let correlation =
+                match correlationIsValid with
+                | true -> Some correlationValue
+                | false -> None
+            let level = parseLevel (parts.[6].Trim())
+
+            match timeStampIsValid, level with
+            | true, Some level ->
+                Some {
+                    TimeStamp = timeStamp
+                    Process = parts.[1].Trim()
+                    Thread = parts.[2].Trim()
+                    Area = parts.[3].Trim()
+                    Category = parts.[4].Trim()
+                    EventID = parts.[5].Trim()
+                    Level = level
+                    Message = parts.[7].Trim()
+                    Correlation = correlation
+                }
+            | a, b ->
+                Console.WriteLine(sprintf "%b %s" a line)
+                None
         | _ -> None
 
     let writeCorrelation (correlation: Guid option) =
@@ -99,10 +89,10 @@ module ULS =
 
     /// Formats a LogItem in ULS way
     let writeLine logItem =
-        sprintf "%s,%d,%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%d\t%s"
-            logItem.Machine logItem.LogIndex (logItem.TimeStamp.ToString(timeStampFormat, CultureInfo.InvariantCulture)) logItem.Process
-            logItem.Thread logItem.Product logItem.Category logItem.EventID (writeLevel logItem.Level) logItem.Message
-            (writeCorrelation logItem.Correlation) logItem.LineIndex logItem.FileName
+        sprintf "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s"
+            (logItem.TimeStamp.ToString(timeStampFormat, CultureInfo.InvariantCulture)) logItem.Process
+            logItem.Thread logItem.Area logItem.Category logItem.EventID (writeLevel logItem.Level) logItem.Message
+            (writeCorrelation logItem.Correlation)
 
     /// Reads ULS logs from a file in a lazy-evaludated way. 
     let fromFile (path: string) : LogItem seq = seq {
