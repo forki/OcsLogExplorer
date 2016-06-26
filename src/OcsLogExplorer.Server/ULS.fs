@@ -17,7 +17,7 @@ module ULS =
         EventID: string
         Level: string
         Message: string
-        Correlation: Guid
+        Correlation: Guid option
         LineIndex: int64
         FileName: string
     }
@@ -35,10 +35,14 @@ module ULS =
                 // parse non-string data first
                 let logIndexIsValid, logIndex = Int64.TryParse(metadata.[1])
                 let timeStampIsValid, timeStamp = DateTime.TryParseExact(metadata.[2].Trim(), timeStampFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal)
-                let correlationIsValid, correlation = Guid.TryParse(parts.[8])
+                let correlationIsValid, correlationValue = Guid.TryParse(parts.[8])
+                let correlation =
+                    match correlationIsValid with
+                    | true -> Some correlationValue
+                    | false -> None
                 let lineIndexIsValid, lineIndex = Int64.TryParse(parts.[9])
-                match logIndexIsValid, timeStampIsValid, correlationIsValid, lineIndexIsValid with
-                | true, true, true, true ->
+                match logIndexIsValid, timeStampIsValid, lineIndexIsValid with
+                | true, true, true ->
                     Some {
                         Machine = metadata.[0].Trim()
                         LogIndex = logIndex
@@ -54,15 +58,20 @@ module ULS =
                         LineIndex = lineIndex
                         FileName = parts.[10].Trim()
                     }
-                | _, _, _, _-> None
+                | _, _, _-> None
             | _ -> None
         | _ -> None
+
+    let writeCorrelation (correlation: Guid option) =
+        match correlation with
+        | Some correlation -> correlation.ToString("d")
+        | None -> ""
 
     let public writeLine logItem =
         sprintf "%s,%d,%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%d\t%s"
             logItem.Machine logItem.LogIndex (logItem.TimeStamp.ToString(timeStampFormat, CultureInfo.InvariantCulture)) logItem.Process
             logItem.Thread logItem.Product logItem.Category logItem.EventID logItem.Level logItem.Message
-            (logItem.Correlation.ToString("d")) logItem.LineIndex logItem.FileName
+            (writeCorrelation logItem.Correlation) logItem.LineIndex logItem.FileName
 
     /// Reads ULS logs from a file in a lazy-evaludated way. 
     let public fromFile (path: string) : LogItem seq = seq {
