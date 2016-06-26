@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>dea828d2-3437-48eb-8d56-6f6291181d96</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>OcsLogExplorer.Server</RootNamespace>
     <AssemblyName>OcsLogExplorer.Server</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -61,10 +61,16 @@
   <ItemGroup>
     <Compile Include="ULS.fs" />
     <Compile Include="OCSULS.fs" />
+    <Compile Include="WebService.fs" />
     <None Include="Script.fsx" />
     <None Include="paket.references" />
     <None Include="paket.template" />
     <Content Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+	<Content Include="content\**">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
