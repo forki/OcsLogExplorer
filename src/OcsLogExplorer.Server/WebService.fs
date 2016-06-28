@@ -23,11 +23,17 @@ module WebService =
             Redirection.redirect <| sprintf "/?path=%s" path
         | _ -> RequestErrors.BAD_REQUEST "Incorrect number of files uploaded"
 
+    let getContentPath() =
+        let exeLocation = System.Reflection.Assembly.GetEntryAssembly().Location
+        let fileInfo = new System.IO.FileInfo(exeLocation)
+        let directoryName = fileInfo.Directory.FullName
+        System.IO.Path.Combine(directoryName, @"content\")
+
     let app : WebPart =
         choose [
             Filters.GET >=> choose [
                 Filters.path "/" >=> Files.file "content/index.html"
-                Filters.pathStarts "/content/" >=> Files.browseHome ]
+                Filters.pathStarts "/" >=> Files.browse (getContentPath()) ]
             Filters.pathStarts "/api/" >=> choose [
                 Filters.POST >=> Filters.path "/api/init" >=> context init
             ]
