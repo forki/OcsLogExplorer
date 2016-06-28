@@ -9,6 +9,7 @@ group Build
   nuget FAKE
   nuget FSharp.Formatting
   nuget Suave
+  nuget Newtonsoft.JSON
 
   github fsharp/FAKE modules/Octokit/Octokit.fsx
 

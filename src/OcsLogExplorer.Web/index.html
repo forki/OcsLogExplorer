@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">OcsLogsExplorer v0.1 alpha</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right">
+            <input type="file" class="form-control" />
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+			<li><a class="header">OCS Sessions</a></li>
+            <li class="active"><a href="#">ff8a41f7-c987-44db-8fe6-636eba45029a</a></li>
+            <li><a href="#">b7ae3b10-2753-442f-b924-6072a86b72d2</a></li>
+            <li><a href="#">b24536ce-1ec6-4719-8cea-9b4b3ec482f2</a></li>
+            <li><a href="#">62e5c3ad-fa89-4b70-b5d0-b02f4c0d80de</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+			<li><a class="header">OCS Client Sessions</a></li>
+            <li><a href="">39f0a89c-a819-48ec-a882-a8c9da564380</a></li>
+            <li><a href="">98c8afa9-5e89-4f7b-a6b5-4d445bd017c7</a></li>
+            <li><a href="">a87616c5-4f2e-41cb-9b63-51184f09d287</a></li>
+            <li><a href="">f5ec73f0-3a7d-495e-97be-883c6b61fb71</a></li>
+            <li><a href="">9871177e-172c-40e7-841a-72a7d11a5466</a></li>
+            <li><a href="">33c8c36d-6239-437c-a3f2-a1a4542d43bc</a></li>
+            <li><a href="">d367c210-9134-41aa-958f-286a51690fdd</a></li>
+            <li><a href="">ff8a41f7-c987-44db-8fe6-636eba45029a</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">OCSSessionID - b7ae3b10-2753-442f-b924-6072a86b72d2</h1>
+
+		  <div class="row">
+            <div class="col-xs-6 col-lg-4 infobox">
+              <h3>Overview</h3>
+			  <ul>
+				<li><strong>StartTime:</strong> 6/12/2016 15:23:22.314</li>
+				<li><strong>EndTime:</strong> 6/12/2016 15:23:22.314</li>
+				<li><strong>Environment:</strong> Dogfood</li>
+				<li><strong>Datacenter:</strong> DF1</li>
+				<li><strong>Application:</strong> PowerPoint</li>
+				</ul>
+            </div>
+            <div class="col-xs-6 col-lg-4 infobox">
+              <h3>StartSession</h3>
+			  <ul>
+				<li><strong>Request:</strong> 6/12/2016 15:23:22.314</li>
+				<li><strong>Response:</strong> 6/12/2016 15:23:22.314</li>
+				<li><strong>OL Endpoint:</strong> http://mymachine/pcil/something.ashx</li>
+				<li><strong>StatusCode:</strong> <button type="button" class="btn btn-xs btn-success">OK</button></li>
+				<li><strong>OuterLoop OcsClientSessionID:</strong><br><a href="">d367c210-9134-41aa-958f-286a51690fdd</a></li>
+				</ul>
+            </div>
+          </div>
+		  
+          <h2 class="sub-header">Synchronize requests</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>StartTime</th>
+                  <th>EndTime</th>
+                  <th>Duration</th>
+                  <th>Correlation</th>
+                  <th class="status">StatusCode</th>
+				  <th class="status">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>6/14/2016 14:12:12.23</td>
+                  <td>6/14/2016 14:12:12.23</td>
+                  <td>1243ms</td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                  <td class="status"><button type="button" class="btn btn-xs btn-success">OK</button></td>
+                  <td class="status"><button type="button" class="btn btn-xs btn-success">Success</button></td>
+                </tr>
+                <tr>
+                  <td>6/14/2016 14:12:12.23</td>
+                  <td>6/14/2016 14:12:12.23</td>
+                  <td>1243ms</td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                  <td class="status"><button type="button" class="btn btn-xs btn-success">OK</button></td>
+                  <td class="status"><button type="button" class="btn btn-xs btn-success">Success</button></td>
+                </tr>
+                <tr>
+                  <td>6/14/2016 14:12:12.23</td>
+                  <td>6/14/2016 14:12:12.23</td>
+                  <td>1243ms</td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                  <td class="status"><button type="button" class="btn btn-xs btn-warning">ServerBusy</button></td>
+                  <td class="status"><button type="button" class="btn btn-xs btn-warning">?</button></td>
+                </tr>
+                <tr>
+                  <td>6/14/2016 14:12:12.23</td>
+                  <td>6/14/2016 14:12:12.23</td>
+                  <td>1243ms</td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                  <td class="status"><button type="button" class="btn btn-xs btn-success">OK</button></td>
+                  <td class="status"><button type="button" class="btn btn-xs btn-success">Success</button></td>
+                </tr>
+                <tr>
+                  <td>6/14/2016 14:12:12.23</td>
+                  <td>6/14/2016 14:12:12.23</td>
+                  <td>1243ms</td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                  <td class="status"><button type="button" class="btn btn-xs btn-danger">ServerError</button></td>
+                  <td class="status"><button type="button" class="btn btn-xs btn-warning">?</button></td>
+                </tr>
+                <tr>
+                  <td>6/14/2016 14:12:12.23</td>
+                  <td>6/14/2016 14:12:12.23</td>
+                  <td>1243ms</td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                  <td class="status"><button type="button" class="btn btn-xs btn-success">OK</button></td>
+                  <td class="status"><button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#myModal">Failure</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="myModalLabel">Synchronize request - b7ae3b10-2753-442f-b924-6072a86b72d2</h4>
+		  </div>
+		  <div class="modal-body">
+          <h2 class="sub-header">Overview</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+		                <thead>
+                <tr>
+                  <th>StartTime</th>
+                  <th>EndTime</th>
+                  <th>Duration</th>
+                  <th>Correlation</th>
+                  <th class="status">StatusCode</th>
+				  <th class="status">Result</th>
+                </tr>
+              </thead>
+			  <tbody>
+                <tr>
+                  <td>6/14/2016 14:12:12.23</td>
+                  <td>6/14/2016 14:12:12.23</td>
+                  <td>1243ms</td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                  <td class="status"><button type="button" class="btn btn-xs btn-success">OK</button></td>
+                  <td class="status"><button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#myModal">Failure</button></td>
+                </tr>
+				</tbody>
+				</table>
+				</div>
+          <h2 class="sub-header">ULS logs <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></h2>
+		            <div class="table-responsive">
+            <table class="table table-striped">
+		                <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Process</th>
+                  <th>Thread</th>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>EventID</th>
+                  <th>Level</th>
+                  <th>Message</th>
+                  <th>Correlation</th>
+                </tr>
+              </thead>
+			  <tbody>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+                <tr>
+				  <td>6/20/2016 12:23:45.23</td>
+                  <td>w3wp (0x123)</td>
+                  <td>0x44f4d</td>
+                  <td>Office Online stuff</td>
+                  <td>Collab InnerLoop</td>
+                  <td>asfdf</td>
+                  <td>Medium</td>
+                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </td>
+                  <td>b7ae3b10-2753-442f-b924-6072a86b72d2</td>
+                </tr>
+				</tbody>
+				</table>
+				</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
