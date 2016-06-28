@@ -7,6 +7,15 @@ module WebService =
     open Newtonsoft.Json
     open Newtonsoft.Json.Serialization
 
+    // Adds a new mime type to the default map
+    let mimeTypes =
+      Writers.defaultMimeTypesMap
+        @@ (function | ".ttf" -> Writers.mkMimeType "font" false | _ -> None)
+        @@ (function | ".woff" -> Writers.mkMimeType "font" false | _ -> None)
+        @@ (function | ".woff2" -> Writers.mkMimeType "font" false | _ -> None)
+
+    let webConfig = { defaultConfig with mimeTypesMap = mimeTypes }
+
     // 'a -> WebPart
     let JSON v =
       let jsonSerializerSettings = new JsonSerializerSettings()
