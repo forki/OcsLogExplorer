@@ -22,6 +22,7 @@ module OcsDataModel =
         Request: Request
         Result: JoinSessionResult
         DidDatacenterRedirectionHappen: bool
+        ExecuteEndpointUrl: string
     }
 
     type OcsClientSession = {
@@ -29,7 +30,7 @@ module OcsDataModel =
         JoinSession: JoinSession
     }
 
-    type OcsSessionData = {
+    type OcsSession = {
         startTime: DateTime
         endTime: DateTime option
         OcsSessionId: Guid
