@@ -1,51 +1,51 @@
-﻿{ 
-    "ocsSessions": [
-        {
-            "ocsSessionId": "b7ae3b10-2753-442f-b924-6072a86b72d2",
-            "details": {
-                "ocsClientSessionIds": [
-                    "39f0a89c-a819-48ec-a882-a8c9da564380",
-                    "98c8afa9-5e89-4f7b-a6b5-4d445bd017c7",
-                    "a87616c5-4f2e-41cb-9b63-51184f09d287"
-                ],
-                "overview": {
-                    "startTime": "2011-10-10T14:48:00",
-                    "endTime": "2011-10-10T14:48:00",
-                    "environment": "Dogfood",
-                    "datacenter": "DF1",
-                    "application": "PowerPoint"
-                },
-                "startSessionRequestDetails": {
-                    "requestTime": "2011-10-10T14:48:00",
-                    "responseTime": "2011-10-10T14:48:00",
-                    "olEndpoint": "http://mymachine/pcol/something.ashx",
-                    "statusCode": 200,
-                    "olOcsClientSessionId": "a87616c5-4f2e-41cb-9b63-51184f09d287"
-                }
-            }
-        }, {
-            "ocsSessionId": "9871177e-172c-40e7-841a-72a7d11a5466",
-            "details": {
-                "ocsClientSessionIds": [
-                    "a87616c5-4f2e-41cb-9b63-51184f09d287",
-                    "98c8afa9-5e89-4f7b-a6b5-4d445bd017c7",
-                    "f5ec73f0-3a7d-495e-97be-883c6b61fb71<"
-                ],
-                "overview": {
-                    "startTime": "2015-10-10T14:48:00",
-                    "endTime": "2016-10-10T14:48:00",
-                    "environment": "Production",
-                    "datacenter": "DF2",
-                    "application": "Word"
-                },
-                "startSessionRequestDetails": {
-                    "requestTime": "1234-10-10T14:48:00",
-                    "responseTime": "1998-10-10T14:48:00",
-                    "olEndpoint": "http://mymachine/ecol/something.ashx",
-                    "statusCode": 500,
-                    "olOcsClientSessionId": "9871177e-172c-40e7-841a-72a7d11a5466"
-                }
-            }
+﻿[
+    {
+        "ocsSessionId": "b7ae3b10-2753-442f-b924-6072a86b72d2",
+        "details": {
+            "ocsClientSessionIds": [
+                "39f0a89c-a819-48ec-a882-a8c9da564380",
+                "98c8afa9-5e89-4f7b-a6b5-4d445bd017c7",
+                "a87616c5-4f2e-41cb-9b63-51184f09d287"
+            ],
+            "overview": {
+                "startTime": "2011-10-10T14:48:00",
+                "endTime": "2011-10-10T14:48:00",
+                "environment": "Dogfood",
+                "datacenter": "DF1",
+                "application": "PowerPoint"
+            },
+            "startSessionRequestDetails": {
+                "requestTime": "2011-10-10T14:48:00",
+                "responseTime": "2011-10-10T14:48:00",
+                "olEndpoint": "http://mymachine/pcol/something.ashx",
+                "statusCode": 200,
+                "olOcsClientSessionId": "a87616c5-4f2e-41cb-9b63-51184f09d287"
+            },
+            "synchronizeRequestsDataUrl": "synchronizeRequestsData.json"
         }
-    ]
-}
+    }, {
+        "ocsSessionId": "9871177e-172c-40e7-841a-72a7d11a5466",
+        "details": {
+            "ocsClientSessionIds": [
+                "a87616c5-4f2e-41cb-9b63-51184f09d287",
+                "98c8afa9-5e89-4f7b-a6b5-4d445bd017c7",
+                "f5ec73f0-3a7d-495e-97be-883c6b61fb71<"
+            ],
+            "overview": {
+                "startTime": "2015-10-10T14:48:00",
+                "endTime": "2016-10-10T14:48:00",
+                "environment": "Production",
+                "datacenter": "DF2",
+                "application": "Word"
+            },
+            "startSessionRequestDetails": {
+                "requestTime": "1234-10-10T14:48:00",
+                "responseTime": "1998-10-10T14:48:00",
+                "olEndpoint": "http://mymachine/ecol/something.ashx",
+                "statusCode": 500,
+                "olOcsClientSessionId": "9871177e-172c-40e7-841a-72a7d11a5466"
+            },
+            "synchronizeRequestsDataUrl": "synchronizeRequestsData.1.json"
+        }
+    }
+]
