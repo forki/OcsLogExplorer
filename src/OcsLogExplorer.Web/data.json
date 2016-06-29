@@ -1,0 +1,19 @@
+﻿{ 
+    "ocsSessions": [
+        {
+            "ocsSessionId": "b7ae3b10-2753-442f-b924-6072a86b72d2",
+            "ocsClientSessionIds": [
+                "39f0a89c-a819-48ec-a882-a8c9da564380",
+                "98c8afa9-5e89-4f7b-a6b5-4d445bd017c7",
+                "a87616c5-4f2e-41cb-9b63-51184f09d287"
+            ]
+        }, {
+            "ocsSessionId": "9871177e-172c-40e7-841a-72a7d11a5466",
+            "ocsClientSessionIds": [
+                "a87616c5-4f2e-41cb-9b63-51184f09d287",
+                "98c8afa9-5e89-4f7b-a6b5-4d445bd017c7",
+                "f5ec73f0-3a7d-495e-97be-883c6b61fb71<"
+            ]
+        }
+    ]
+}
