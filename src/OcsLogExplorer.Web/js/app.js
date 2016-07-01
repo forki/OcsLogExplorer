@@ -52,13 +52,10 @@ var OcsSessionList = React.createClass({
         this.props.onOcsSessionSelected(ocsSessionDetails);
     },
     render: function() {
-        if(this.props === undefined || this.props.ocsSessions === undefined)
+        console.log(this.props);
+        if(!this.props || !this.props.ocsSessions || this.props.ocsSessions.length == 0)
         {
-            return (
-                <ul className="nav nav-sidebar" id="OcsSessionList">
-                    <li><a className="header">OCS Sessions</a></li>
-                </ul>
-            )
+            return false;
         }
         else
         {
@@ -257,7 +254,7 @@ var OcsSession = React.createClass({
     render: function() {
         let data = this.props.ocsSessionDetails.details;
 
-        if(!data || !data.overview)
+        if(!data)
             return false;
 
         return(
@@ -267,11 +264,11 @@ var OcsSession = React.createClass({
                     <div className="col-xs-6 col-lg-3 infobox">
                         <h3>Overview</h3>
                         <ul>
-                            <li><strong>Application:</strong> {data.overview.application}</li>
-                            <li><strong>Environment:</strong> {data.overview.environment}</li>
-                            <li><strong>Datacenter:</strong> {data.overview.datacenter}</li>
-                            <li><strong>StartTime:</strong> {data.overview.startTime}</li>
-                            <li><strong>EndTime:</strong> {data.overview.endTime}</li>
+                            <li><strong>Application:</strong> {data.application}</li>
+                            <li><strong>Environment:</strong> {data.environment}</li>
+                            <li><strong>Datacenter:</strong> {data.datacenter}</li>
+                            <li><strong>StartTime:</strong> {data.startTime}</li>
+                            <li><strong>EndTime:</strong> {data.endTime}</li>
                         </ul>
                     </div>
                     <OcsClientSessionList ocsClientSessionIds={data.ocsClientSessionIds} />
@@ -292,8 +289,13 @@ var OcsLogExplorer = React.createClass({
         return {data: [], ocsSessionDetails: {}};
     },
     componentDidMount: function() {
+        let hash = window.location.hash;
+        if(!hash)
+            return;
+
+        let url = "/api/overview/" + hash.substr(1);
         $.ajax({
-            url: this.props.url,
+            url: url,
             dataType: 'json',
             cache: false,
             success: function(data) {this.setState({data: data});}.bind(this),
@@ -318,6 +320,6 @@ var OcsLogExplorer = React.createClass({
 /* end - CONTAINER */
 
 ReactDOM.render(
-    <OcsLogExplorer url="data.json" />,
+    <OcsLogExplorer />,
     document.getElementById('OcsLogExplorer')
 );

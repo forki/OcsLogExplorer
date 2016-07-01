@@ -60,6 +60,7 @@
     <Compile Include="ULS.fs" />
     <Compile Include="OCSULS.fs" />
     <Compile Include="OcsDataModel.fs" />
+    <Compile Include="DataStore.fs" />
     <Compile Include="WebService.fs" />
     <None Include="Script.fsx" />
     <None Include="paket.references" />

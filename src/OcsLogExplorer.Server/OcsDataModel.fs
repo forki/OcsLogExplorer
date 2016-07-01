@@ -30,10 +30,18 @@ module OcsDataModel =
         JoinSession: JoinSession
     }
 
+    type OcsSessionDetails = {
+        OcsClientSessionIds: Guid list
+        StartTime: DateTime
+        EndTime: DateTime
+        Environment: string
+        Datacenter: string
+        Application: string
+        RequestDataUrl: string
+    }
+
     type OcsSession = {
-        startTime: DateTime
-        endTime: DateTime option
         OcsSessionId: Guid
-        ClientSessions: OcsClientSession list
+        Details: OcsSessionDetails
     }
 
