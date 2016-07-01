@@ -79,37 +79,29 @@ var OcsSessionList = React.createClass({
 });
 
 var OcsClientSessionList = React.createClass({
-    handleOcsClientSessionSelectionChange: function(ocsClientSessionId) {
-        console.log("selected OcsClientSessionId: " + ocsClientSessionId);
-    },
     render: function() {
         if(this.props.ocsClientSessionIds === undefined)
         {
-            return (
-                <ul className="nav nav-sidebar" id="OcsClientSessionList">
-                    <li><a className="header">OCS Client Sessions</a></li>
-                </ul>
-            )
+            return false;
         }
         else
         {
             let items = this.props.ocsClientSessionIds.map(function(ocsClientSessionId) {
-                        return(<li key={ocsClientSessionId}
-                                   onClick={function(e) { this.handleOcsClientSessionSelectionChange(ocsClientSessionId); }.bind(this)}>
-                            <a href="#">{ocsClientSessionId}</a>
-                        </li>)
+                        return(<li key={ocsClientSessionId}>{ocsClientSessionId}</li>)
                     }.bind(this));
             return (
-                <ul className="nav nav-sidebar" id="OcsSessionList">
-                    <li><a className="header">OCS Client Sessions</a></li>
-                    {items}
-                </ul>
+                <div className="col-xs-6 col-lg-3 infobox">
+                    <h3>OCS Client Sessions</h3>
+                    <ul>
+                        {items}
+                    </ul>
+                </div>
             )
         }
     }
 });
 
-var SynchronizeRequestList = React.createClass({
+var RequestLists = React.createClass({
     getInitialState: function() {
         return {requests: []};
     },
@@ -129,22 +121,110 @@ var SynchronizeRequestList = React.createClass({
             error: function(jqXHR, status, err) {console.error(url, status, err.toString());}
         });
     },
+    onAllRequestsListFilterchanged: function(filter) {
+        alert(filter);
+    },
     render: function() {
-        let data = this.state.requests;
-        if(!data)
+        let requests = this.state.requests;
+        if(!requests)
             return false;
 
-        let items = data.map(function(serializeRequest) {
-                    return(<tr key={serializeRequest.correlation}>
-                            <td>{serializeRequest.startTime}</td>
-                            <td>{serializeRequest.endTime}</td>
-                            <td>{serializeRequest.duration}ms</td>
-                            <td>{serializeRequest.correlation}</td>
-                            <td>{serializeRequest.olMachineId}</td>
-                            <td className="status"><ResponseStatusCodeButton statusCode={serializeRequest.statusCode} /></td>
-                            <td className="status"><ResultButton result={serializeRequest.result} /></td>
-                        </tr>)
-                }.bind(this));
+// <RequestListFilters onFilterChanged={this.onAllRequestsListFilterchanged} type="mocsi" />
+
+        return(
+            <div>
+                <ul className="nav nav-tabs" role="tablist">
+                    <li role="presentation" className="active">
+                        <a href="#all" id="all-tab" aria-controls="all" role="tab" data-toggle="tab">All</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#mocsi" id="mocsi-tab" aria-controls="mocsi" role="tab" data-toggle="tab">MOCSI</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#outerLoop" id="outerLoop-tab" aria-controls="outerLoop" role="tab" data-toggle="tab">OuterLoop</a>
+                    </li>
+                </ul>
+                <div className="tab-content">
+                    <div role="tabpanel" className="tab-pane active" id="all">
+                        <RequestList requests={requests} />
+                    </div>
+                    <div role="tabpanel" className="tab-pane" id="mocsi">
+                        <RequestList requests={requests} type="mocsi" />
+                    </div>
+                    <div role="tabpanel" className="tab-pane" id="outerLoop">
+                        <RequestList requests={requests} type="outerLoop" />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+})
+
+var RequestListFilters = React.createClass({
+    onRequestTypeFilterChanged: function(e) {
+
+    },
+    render: function() {
+        let type = this.props.type;
+
+        return(
+            <div className="filterList">
+                <p className="filterListRow">
+                    <strong>StatusCode:</strong>
+                    <label>OK</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                    <label>BadRequest</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                    <label>BadWopiSrc</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                    <label>BadOverride</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                    <label>NoSupportedFormat</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                    <label>NoSession</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                    <label>ServerError</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                    <label>ServerBusy</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                </p>
+                <p className="filterListRow">
+                    <strong>RequestType:</strong>
+                    <label>JoinSession</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                    <label>UpdateRevision</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                    <label>GetRevision</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                    <label>PutBlobs</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                    <label>GetBlobs</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                    <label>LeaveSession</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                    <label>StartSession</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                    <label>Synchronize</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
+                </p>
+            </div>
+        );
+    }
+});
+
+var RequestList = React.createClass({
+    render: function() {
+        let requests = this.props.requests;
+        if(requests === undefined)
+        return false;
+
+        console.log(this.props);
+        var id = 0;
+
+        let getRequestType = function(method) {
+            if(method === "Synchronize" || method === "StartSession")
+                return "outerLoop";
+            return "mocsi";
+        }
+        let showRequest = function(request) {
+            return this.props.type === undefined || this.props.type == getRequestType(request.method)
+        }.bind(this);
+
+        var items = requests.filter(showRequest).map(function(request) {
+            return(<tr key={(this.props.type) + "_" + (id++) + '_' + request.correlation}>
+                    <td>{request.startTime}</td>
+                    <td>{request.endTime}</td>
+                    <td>{request.correlation}</td>
+                    <td>{request.ocsClientSessionId}</td>
+                    <td>{request.method}</td>
+                    <td className="status"><ResponseStatusCodeButton statusCode={request.statusCode} /></td>
+                    <td className="status"><ResultButton result={request.result} /></td>
+                </tr>)
+            }.bind(this));
 
         return(
             <div className="table-responsive">
@@ -153,9 +233,9 @@ var SynchronizeRequestList = React.createClass({
                         <tr>
                             <th>StartTime</th>
                             <th>EndTime</th>
-                            <th>Duration</th>
                             <th>Correlation</th>
-                            <th>OL MachineId</th>
+                            <th>OcsClientSessionId</th>
+                            <th>Method</th>
                             <th className="status">StatusCode</th>
                             <th className="status">Result</th>
                         </tr>
@@ -184,29 +264,20 @@ var OcsSession = React.createClass({
             <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> 
                 <h1 className="page-header">OCSSessionID - {this.props.ocsSessionDetails.ocsSessionId}</h1>
                 <div className="row">
-                    <div className="col-xs-6 col-lg-4 infobox">
+                    <div className="col-xs-6 col-lg-3 infobox">
                         <h3>Overview</h3>
                         <ul>
-                            <li><strong>StartTime:</strong> {data.overview.startTime}</li>
-                            <li><strong>EndTime:</strong> {data.overview.endTime}</li>
+                            <li><strong>Application:</strong> {data.overview.application}</li>
                             <li><strong>Environment:</strong> {data.overview.environment}</li>
                             <li><strong>Datacenter:</strong> {data.overview.datacenter}</li>
-                            <li><strong>Application:</strong> {data.overview.application}</li>
+                            <li><strong>StartTime:</strong> {data.overview.startTime}</li>
+                            <li><strong>EndTime:</strong> {data.overview.endTime}</li>
                         </ul>
                     </div>
-                    <div className="col-xs-6 col-lg-4 infobox">
-                        <h3>StartSession</h3>
-                        <ul>
-                            <li><strong>Request:</strong> {data.startSessionRequestDetails.requestTime}</li>
-                            <li><strong>Response:</strong> {data.startSessionRequestDetails.responseTime}</li>
-                            <li><strong>OL Endpoint:</strong> {data.startSessionRequestDetails.olEndpoint}</li>
-                            <li><strong>StatusCode:</strong> <ResponseStatusCodeButton statusCode={data.startSessionRequestDetails.statusCode} /></li>
-                            <li><strong>OuterLoop OcsClientSessionID:</strong><br /><a href="">{data.startSessionRequestDetails.olOcsClientSessionId}</a></li>
-                        </ul>
-                    </div>
+                    <OcsClientSessionList ocsClientSessionIds={data.ocsClientSessionIds} />
                 </div>
-                <h2 className="sub-header">Synchronize requests</h2>
-                <SynchronizeRequestList url={data.synchronizeRequestsDataUrl} />
+                <h2 className="sub-header">Requests</h2>
+                <RequestLists url={data.requestsDataUrl} />
             </div>
         );
     }
@@ -218,7 +289,7 @@ var OcsSession = React.createClass({
 
 var OcsLogExplorer = React.createClass({
     getInitialState: function() {
-        return {data: [], ocsSessionDetails: { details: {}}};
+        return {data: [], ocsSessionDetails: {}};
     },
     componentDidMount: function() {
         $.ajax({
@@ -237,7 +308,6 @@ var OcsLogExplorer = React.createClass({
             <div className="row">
                 <div className="col-sm-3 col-md-2 sidebar">
                     <OcsSessionList ocsSessions={this.state.data} onOcsSessionSelected={this.onOcsSessionSelected} />
-                    <OcsClientSessionList ocsClientSessionIds={this.state.ocsSessionDetails.details.ocsClientSessionIds} />
                 </div>
             <OcsSession ocsSessionDetails={this.state.ocsSessionDetails} />
             </div>

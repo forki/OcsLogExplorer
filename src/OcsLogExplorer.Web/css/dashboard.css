@@ -137,3 +137,38 @@ body {
 .modal-dialog {
 	width: 90%;
 }
+
+.filterList {
+    position: absolute;
+    height: 40px;
+    right: 0;
+    top: -47px;
+    text-align: right;
+}
+
+.filterListRow {
+    line-height: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.filterListRow strong {
+  margin-right: 5px;
+}
+
+.filterListCheckbox {
+    line-height: 20px !important;
+    margin-left: 2px !important;
+    margin-right: 8px !important;
+    vertical-align: middle !important;
+    height: 20px !important;
+    margin-top: 0px !important;
+}
+
+.tab-pane {
+  position: relative;
+}
+
+.filterListRow label {
+  font-weight: normal;
+}
