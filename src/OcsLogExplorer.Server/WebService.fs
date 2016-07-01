@@ -37,30 +37,16 @@ module WebService =
 
     // gets the path, does initial processing on the file and returns json-formatted overview
     let getOverview path =
-        let ocsSessionInfo : OcsSession = {
-            OcsSessionId = Guid.NewGuid()
-            Details =
-            {
-                OcsClientSessionIds = [ Guid.NewGuid(); Guid.NewGuid() ]
-                StartTime = DateTime.UtcNow
-                EndTime = DateTime.UtcNow.AddHours(2.)
-                Environment = "Dogfood"
-                Datacenter = "DF2"
-                Application = "PowerPoint"
-                RequestDataUrl = "http://location/something"
-            }
-        }
-        JSON ([ ocsSessionInfo ])
+        let result, pathId = Guid.TryParse path
+        match result with
+        | true ->
+            match DataStore.tryGetPath pathId with
+            | Some path ->
+                JSON <| DataStore.getOverview path
+            | None -> RequestErrors.BAD_REQUEST "Unknown pathId"
+        | false -> RequestErrors.BAD_REQUEST "pathId should be a guid"
 
-//        let result, pathId = Guid.TryParse path
-//        match result with
-//        | true ->
-//            match DataStore.tryGetPath pathId with
-//            | Some path ->
-//                let overview = DataStore.initFile path
-//                JSON overview
-//            | None -> RequestErrors.BAD_REQUEST "Unknown pathId"
-//        | false -> RequestErrors.BAD_REQUEST "pathId should be a guid"
+
 
     let getContentPath() =
         let exeLocation = System.Reflection.Assembly.GetEntryAssembly().Location

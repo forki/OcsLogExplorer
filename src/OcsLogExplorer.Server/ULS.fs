@@ -29,7 +29,7 @@ module ULS =
     }
 
     [<Literal>]
-    let timeStampFormat = @"MM/dd/yyyy HH:mm:ss.ff"
+    let timeStampFormat = @"yyyy-MM-dd HH:mm:ss.fffffff"
 
     let parseLevel = function
         | "VerboseEx" -> Some Level.VerboseEx

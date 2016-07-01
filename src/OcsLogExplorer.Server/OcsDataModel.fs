@@ -37,7 +37,6 @@ module OcsDataModel =
         Environment: string
         Datacenter: string
         Application: string
-        RequestDataUrl: string
     }
 
     type OcsSession = {

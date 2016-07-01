@@ -17,3 +17,7 @@ module DataStore =
         | true -> Some path
         | false -> None
 
+    let getOverview path =
+        let uls = OCSULS.fromFile path
+        OcsLogExplorer.Server.DataExtractors.OcsSessionOverviewExtractor.extract uls
+

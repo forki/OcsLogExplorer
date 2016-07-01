@@ -153,7 +153,6 @@ Target "All" DoNothing
   ==> "AssemblyInfo"
   ==> "Build"
   ==> "CopyWebContent"
-  ==> "RunTests"
   ==> "All"
 
 RunTargetOrDefault "All"
