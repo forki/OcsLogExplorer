@@ -289,11 +289,11 @@ var OcsLogExplorer = React.createClass({
         return {data: [], ocsSessionDetails: {}};
     },
     componentDidMount: function() {
-        let hash = window.location.hash;
-        if(!hash)
+        let search = window.location.search;
+        if(!search)
             return;
 
-        let url = "/api/overview/" + hash.substr(1);
+        let url = "/api/overview/" + search.substr(1);
         $.ajax({
             url: url,
             dataType: 'json',

@@ -32,7 +32,7 @@ module WebService =
         | [ file ] ->
             let path = file.tempFilePath
             let pathId = DataStore.newPath path
-            Redirection.redirect <| sprintf "/#%O" pathId
+            Redirection.redirect <| sprintf "/?%O" pathId
         | _ -> RequestErrors.BAD_REQUEST "Incorrect number of files uploaded"
 
     // gets the path, does initial processing on the file and returns json-formatted overview
