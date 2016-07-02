@@ -1,5 +1,11 @@
 /* UTILS - helper components and functions used all over the place */
 
+function formatDate(dateStr) {
+    if(dateStr === undefined)
+        return;
+    return new Date(dateStr).toLocaleString()
+}
+
 var ResponseStatusCodeButton = React.createClass({
     render: function() {
         switch(this.props.statusCode)
@@ -30,9 +36,9 @@ var ResultButton = React.createClass({
     render: function() {
         switch(this.props.result)
         {
-            case "success":
+            case true:
                 return(<button type="button" className="btn btn-xs btn-success">Success</button>);
-            case "failure":
+            case false:
                 return(<button type="button" className="btn btn-xs btn-danger">Failure</button>);
             default:
                 return(<span></span>);
@@ -52,7 +58,6 @@ var OcsSessionList = React.createClass({
         this.props.onOcsSessionSelected(ocsSessionDetails);
     },
     render: function() {
-        console.log(this.props);
         if(!this.props || !this.props.ocsSessions || this.props.ocsSessions.length == 0)
         {
             return false;
@@ -199,7 +204,6 @@ var RequestList = React.createClass({
         if(requests === undefined)
         return false;
 
-        console.log(this.props);
         var id = 0;
 
         let getRequestType = function(method) {
@@ -213,8 +217,8 @@ var RequestList = React.createClass({
 
         var items = requests.filter(showRequest).map(function(request) {
             return(<tr key={(this.props.type) + "_" + (id++) + '_' + request.correlation}>
-                    <td>{request.startTime}</td>
-                    <td>{request.endTime}</td>
+                    <td>{formatDate(request.startTime)}</td>
+                    <td>{formatDate(request.endTime)}</td>
                     <td>{request.correlation}</td>
                     <td>{request.ocsClientSessionId}</td>
                     <td>{request.method}</td>
@@ -253,9 +257,14 @@ var RequestList = React.createClass({
 var OcsSession = React.createClass({
     render: function() {
         let data = this.props.ocsSessionDetails.details;
-
         if(!data)
             return false;
+
+        let search = window.location.search;
+        if(!search)
+            return;
+
+        let requestsDataUrl = "/api/requests/" + search.substr(1) + "/" + this.props.ocsSessionDetails.ocsSessionId;
 
         return(
             <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> 
@@ -274,7 +283,7 @@ var OcsSession = React.createClass({
                     <OcsClientSessionList ocsClientSessionIds={data.ocsClientSessionIds} />
                 </div>
                 <h2 className="sub-header">Requests</h2>
-                <RequestLists url={data.requestsDataUrl} />
+                <RequestLists url={requestsDataUrl} />
             </div>
         );
     }

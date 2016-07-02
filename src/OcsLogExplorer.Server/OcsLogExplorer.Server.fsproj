@@ -62,6 +62,7 @@
     <Compile Include="OcsDataModel.fs" />
     <Compile Include="DataExtractors.fs" />
     <Compile Include="DataStore.fs" />
+    <Compile Include="IdiomaticDuConverter.fs" />
     <Compile Include="WebService.fs" />
     <None Include="Script.fsx" />
     <None Include="paket.references" />
