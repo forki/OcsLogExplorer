@@ -18,7 +18,7 @@ module DataStore =
         | true -> Some path
         | false -> None
 
-    let getUls path =
+    let getUlsFromFile path =
         match ulsCache.TryGetValue path with
         | true, uls -> uls
         | false, _ -> 
@@ -27,10 +27,15 @@ module DataStore =
             ulsCache.[path] <- uls
             uls
 
+    let getUls path correlation =
+        getUlsFromFile path
+        |> Seq.filter (fun x -> x.LogItem.Correlation = Some correlation)
+        |> Seq.map (fun x -> x.LogItem)
+
     let getOverview path =
-        getUls path |> OcsLogExplorer.Server.DataExtractors.OcsSessionOverviewExtractor.extract
+        getUlsFromFile path |> OcsLogExplorer.Server.DataExtractors.OcsSessionOverviewExtractor.extract
 
     let getRequests path ocsSessionId =
-        getUls path |> OcsLogExplorer.Server.DataExtractors.extract ocsSessionId
+        getUlsFromFile path |> OcsLogExplorer.Server.DataExtractors.extract ocsSessionId
 
 

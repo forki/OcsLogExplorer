@@ -38,6 +38,16 @@ module WebService =
             Redirection.redirect <| sprintf "/?%O" pathId
         | _ -> RequestErrors.BAD_REQUEST "Incorrect number of files uploaded"
 
+    let handlePathRequest handler path =
+        let result, pathId = Guid.TryParse path
+        match result with
+        | true ->
+            match DataStore.tryGetPath pathId with
+            | Some path ->
+                JSON <| handler path
+            | None -> RequestErrors.BAD_REQUEST "Unknown pathId"
+        | false -> RequestErrors.BAD_REQUEST "pathId should be a guid"
+
     let handlePathAndOcsSessionIdRequest handler (path, ocsSessionId) =
         let result, pathId = Guid.TryParse path
         let guidResult, ocsSessionId = Guid.TryParse ocsSessionId
@@ -49,20 +59,25 @@ module WebService =
             | None -> RequestErrors.BAD_REQUEST "Unknown pathId"
         | _ -> RequestErrors.BAD_REQUEST "pathId and ocsSessionId should be guids"
 
-    // gets the path, does initial processing on the file and returns json-formatted overview
-    let getOverview path =
+    let handlePathAndCorrelationRequest handler (path, correlation) =
         let result, pathId = Guid.TryParse path
-        match result with
-        | true ->
+        let guidResult, correlation = Guid.TryParse correlation
+        match result, guidResult with
+        | true, true ->
             match DataStore.tryGetPath pathId with
             | Some path ->
-                JSON <| DataStore.getOverview path
+                JSON <| handler path correlation
             | None -> RequestErrors.BAD_REQUEST "Unknown pathId"
-        | false -> RequestErrors.BAD_REQUEST "pathId should be a guid"
+        | _ -> RequestErrors.BAD_REQUEST "pathId and correlation should be guids"
+
+    // gets the path, does initial processing on the file and returns json-formatted overview
+    let getOverview = handlePathRequest DataStore.getOverview
 
     // gets the path, extracts request data and returns in json-formated list
-    let getRequests (path, ocsSessionId) =
-        handlePathAndOcsSessionIdRequest DataStore.getRequests (path, ocsSessionId)
+    let getRequests = handlePathAndOcsSessionIdRequest DataStore.getRequests
+
+    // gets the path, extracts ULS data for given correlation and returns in json-formatted list
+    let getUls = handlePathAndCorrelationRequest DataStore.getUls
 
     let getContentPath() =
         let exeLocation = System.Reflection.Assembly.GetEntryAssembly().Location
@@ -79,6 +94,7 @@ module WebService =
                 Filters.POST >=> Filters.path "/api/init" >=> context init
                 Filters.GET >=> Filters.pathScan "/api/overview/%s" getOverview
                 Filters.GET >=> Filters.pathScan "/api/requests/%s/%s" getRequests
+                Filters.GET >=> Filters.pathScan "/api/uls/%s/%s" getUls
             ]
             RequestErrors.NOT_FOUND "Page not found." 
         ]
