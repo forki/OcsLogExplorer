@@ -31,6 +31,6 @@ module DataStore =
         getUls path |> OcsLogExplorer.Server.DataExtractors.OcsSessionOverviewExtractor.extract
 
     let getRequests path ocsSessionId =
-        getUls path |> OcsLogExplorer.Server.DataExtractors.OuterLoopRequestsDataExtractor.extract ocsSessionId
+        getUls path |> OcsLogExplorer.Server.DataExtractors.extract ocsSessionId
 
 
