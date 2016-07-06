@@ -31,6 +31,9 @@ module ULS =
     [<Literal>]
     let timeStampFormat = @"yyyy-MM-dd HH:mm:ss.fffffff"
 
+    [<Literal>]
+    let timeStampFormat2 = @"MM/dd/yyyy HH:mm:ss.ff"
+
     let parseLevel = function
         | "VerboseEx" -> Some Level.VerboseEx
         | "Verbose" -> Some Level.Verbose
@@ -57,6 +60,7 @@ module ULS =
         | 9 ->
             // parse non-string data first
             let timeStampIsValid, timeStamp = DateTime.TryParseExact(parts.[0].Trim(), timeStampFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal)
+            let timeStamp2IsValid, timeStamp2 = DateTime.TryParseExact(parts.[0].Trim(), timeStampFormat2, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal)
             let correlationIsValid, correlationValue = Guid.TryParse(parts.[8])
             let correlation =
                 match correlationIsValid with
@@ -64,8 +68,14 @@ module ULS =
                 | false -> None
             let level = parseLevel (parts.[6].Trim())
 
-            match timeStampIsValid, level with
-            | true, Some level ->
+            let timeStamp =
+                match timeStampIsValid, timeStamp2IsValid with
+                | true, false -> Some timeStamp
+                | false, true -> Some timeStamp2
+                | _ -> None
+
+            match timeStamp, level with
+            | Some timeStamp, Some level ->
                 Some {
                     TimeStamp = timeStamp
                     Process = parts.[1].Trim()
@@ -77,9 +87,7 @@ module ULS =
                     Message = parts.[7].Trim()
                     Correlation = correlation
                 }
-            | a, b ->
-                Console.WriteLine(sprintf "%b %s" a line)
-                None
+            | _ -> None
         | _ -> None
 
     let writeCorrelation (correlation: Guid option) =

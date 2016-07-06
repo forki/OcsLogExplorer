@@ -47,12 +47,15 @@ module DataExtractors =
             | _ -> Some (endpointName.Substring(start, last - start))
 
         let private extractApplicationAndDatacenter uls =
-            let bihio = uls |> Seq.filter (fun x -> x.LogItem.EventID = "bihio") |> Seq.head
-            match parseBihio bihio.LogItem.Message with
-            | Some (endpointName, executeUrl) ->
-                let application = match (parseApplication endpointName) with | Some application -> application | None -> ""
-                let datacenter = match (parseDatacenter executeUrl) with | Some datacenter -> datacenter | None -> ""
-                (application, datacenter)
+            let bihio = tryFindTag uls "bihio"
+            match bihio with
+            | Some bihio ->
+                match parseBihio bihio.LogItem.Message with
+                | Some (endpointName, executeUrl) ->
+                    let application = match (parseApplication endpointName) with | Some application -> application | None -> ""
+                    let datacenter = match (parseDatacenter executeUrl) with | Some datacenter -> datacenter | None -> ""
+                    (application, datacenter)
+                | None -> ("", "")
             | None -> ("", "")
 
         let private getOcsClientSessions uls =
@@ -83,6 +86,7 @@ module DataExtractors =
             uls
             |> Seq.ofArray
             |> Seq.groupBy (fun uls -> uls.CorrelationMapping.OcsSessionId)
+            |> Seq.filter (fun (key, _) -> match key with | Some key -> key <> Guid.Empty | None -> false)
             |> Seq.map extractDetails
             |> Seq.toArray
 

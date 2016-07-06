@@ -11,21 +11,21 @@ var ResponseStatusCodeButton = React.createClass({
         switch(this.props.statusCode)
         {
             case 200:
-                return(<button type="button" className="btn btn-xs btn-success" alt="200">OK</button>);
+                return(<span className="label label-success" alt="200">OK</span>);
             case 400:
-                return(<button type="button" className="btn btn-xs btn-danger" alt="400">BadRequest</button>);
+                return(<span className="label label-danger" alt="400">BadRequest</span>);
             case 404:
-                return(<button type="button" className="btn btn-xs btn-danger" alt="404">BadWopiSrc</button>);
+                return(<span className="label label-danger" alt="404">BadWopiSrc</span>);
             case 405:
-                return(<button type="button" className="btn btn-xs btn-danger" alt="405">BadOverride</button>);
+                return(<span className="label label-danger" alt="405">BadOverride</span>);
             case 406:
-                return(<button type="button" className="btn btn-xs btn-danger" alt="406">NoSupportedFormat</button>);
+                return(<span className="label label-danger" alt="406">NoSupportedFormat</span>);
             case 410:
-                return(<button type="button" className="btn btn-xs btn-danger" alt="410">NoSession</button>);
+                return(<span className="label label-danger" alt="410">NoSession</span>);
             case 500:
-                return(<button type="button" className="btn btn-xs btn-danger" alt="500">ServerError</button>);
+                return(<span className="label label-danger" alt="500">ServerError</span>);
             case 503:
-                return(<button type="button" className="btn btn-xs btn-warning" alt="503">ServerBusy</button>);
+                return(<span className="label label-warning" alt="503">ServerBusy</span>);
             default:
                 return(<span></span>);
         }
@@ -37,9 +37,9 @@ var ResultButton = React.createClass({
         switch(this.props.result)
         {
             case true:
-                return(<button type="button" className="btn btn-xs btn-success">Success</button>);
+                return(<span className="label label-success">Success</span>);
             case false:
-                return(<button type="button" className="btn btn-xs btn-danger">Failure</button>);
+                return(<span className="label label-danger">Failure</span>);
             default:
                 return(<span></span>);
         }
@@ -131,8 +131,6 @@ var RequestLists = React.createClass({
         if(!requests)
             return false;
 
-// <RequestListFilters onFilterChanged={this.onAllRequestsListFilterchanged} type="mocsi" />
-
         return(
             <div>
                 <ul className="nav nav-tabs" role="tablist">
@@ -148,13 +146,13 @@ var RequestLists = React.createClass({
                 </ul>
                 <div className="tab-content">
                     <div role="tabpanel" className="tab-pane active" id="all">
-                        <RequestList requests={requests} />
+                        <RequestList requests={requests} onShowRequestDetails={this.props.onShowRequestDetails} />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="mocsi">
-                        <RequestList requests={requests} type="mocsi" />
+                        <RequestList requests={requests} onShowRequestDetails={this.props.onShowRequestDetails} type="mocsi" />
                     </div>
                     <div role="tabpanel" className="tab-pane" id="outerLoop">
-                        <RequestList requests={requests} type="outerLoop" />
+                        <RequestList requests={requests} onShowRequestDetails={this.props.onShowRequestDetails} type="outerLoop" />
                     </div>
                 </div>
             </div>
@@ -163,9 +161,6 @@ var RequestLists = React.createClass({
 })
 
 var RequestListFilters = React.createClass({
-    onRequestTypeFilterChanged: function(e) {
-
-    },
     render: function() {
         let type = this.props.type;
 
@@ -198,13 +193,48 @@ var RequestListFilters = React.createClass({
     }
 });
 
+var RequestListHeaderRow = React.createClass({
+    render: function() {
+    return(
+        <thead>
+            <tr>
+                <th>StartTime</th>
+                <th>EndTime</th>
+                <th>Correlation</th>
+                <th>OcsClientSessionId</th>
+                <th>Method</th>
+                <th className="status">StatusCode</th>
+                <th className="status">Result</th>
+            </tr>
+        </thead>);
+    }
+})
+
+var RequestListBodyRow = React.createClass({
+    render: function() {
+        return(
+            <tr key={this.props.type + "_" + this.props.id + '_' + this.props.request.correlation}
+                onClick={function(e) {
+                    if(this.props.detailsOnClick)
+                        this.props.onShowRequestDetails(this.props.request);}.bind(this)
+                }
+                className={this.props.detailsOnClick ? "detailsOnClick" : ""}>
+                <td>{formatDate(this.props.request.startTime)}</td>
+                <td>{formatDate(this.props.request.endTime)}</td>
+                <td>{this.props.request.correlation}</td>
+                <td>{this.props.request.ocsClientSessionId}</td>
+                <td>{this.props.request.method}</td>
+                <td className="status"><ResponseStatusCodeButton statusCode={this.props.request.statusCode} /></td>
+                <td className="status"><ResultButton result={this.props.request.result} /></td>
+            </tr>)
+    }
+})
+
 var RequestList = React.createClass({
     render: function() {
         let requests = this.props.requests;
         if(requests === undefined)
         return false;
-
-        var id = 0;
 
         let getRequestType = function(method) {
             if(method === "Synchronize" || method === "StartSession")
@@ -215,32 +245,14 @@ var RequestList = React.createClass({
             return this.props.type === undefined || this.props.type == getRequestType(request.method)
         }.bind(this);
 
-        var items = requests.filter(showRequest).map(function(request) {
-            return(<tr key={(this.props.type) + "_" + (id++) + '_' + request.correlation}>
-                    <td>{formatDate(request.startTime)}</td>
-                    <td>{formatDate(request.endTime)}</td>
-                    <td>{request.correlation}</td>
-                    <td>{request.ocsClientSessionId}</td>
-                    <td>{request.method}</td>
-                    <td className="status"><ResponseStatusCodeButton statusCode={request.statusCode} /></td>
-                    <td className="status"><ResultButton result={request.result} /></td>
-                </tr>)
+        var items = requests.filter(showRequest).map(function(request, id) {
+                return(<RequestListBodyRow detailsOnClick={true} id={id} type={this.props.type} request={request} onShowRequestDetails={this.props.onShowRequestDetails} />);
             }.bind(this));
 
         return(
             <div className="table-responsive">
                 <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>StartTime</th>
-                            <th>EndTime</th>
-                            <th>Correlation</th>
-                            <th>OcsClientSessionId</th>
-                            <th>Method</th>
-                            <th className="status">StatusCode</th>
-                            <th className="status">Result</th>
-                        </tr>
-                    </thead>
+                    <RequestListHeaderRow />
                     <tbody>
                         {items}
                     </tbody>
@@ -250,11 +262,82 @@ var RequestList = React.createClass({
     }
 })
 
+var UlsList = React.createClass({
+    getUlsClassName: function(level) {
+        if(level == "Medium")
+            return "";
+        if(level == "Monitorable")
+            return "ulsWarning";
+        return "ulsError";
+    },
+    getInitialState: function() {
+        return {logs: []};
+    },
+    componentDidMount: function() {
+        this.fetchData(this.props.url);
+    },
+    componentWillReceiveProps: function(newProps) {
+        if(this.props.url != newProps.url && newProps.url)
+            this.fetchData(newProps.url);
+    },
+    fetchData: function(url) {
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            cache: false,
+            success: function(data) {this.setState({uls: data});}.bind(this),
+            error: function(jqXHR, status, err) {console.error(url, status, err.toString());}
+        });
+    },
+    onAllRequestsListFilterchanged: function(filter) {
+        alert(filter);
+    },
+    render: function() {
+        let uls = this.state.uls;
+        if(!uls)
+            return false;
+
+        var logs = uls.map(function(log, id) {
+                return(
+                    <tr className={this.getUlsClassName(log.level.__Case)}>
+                        <td>{log.timeStamp}</td>
+                        <td>{log.process}</td>
+                        <td>{log.thread}</td>
+                        <td>{log.category}</td>
+                        <td>{log.eventID}</td>
+                        <td>{log.level.__Case}</td>
+                        <td>{log.message}</td>
+                    </tr>);
+            }.bind(this));
+
+        return(
+            <table className="table table-striped table-uls">
+                <thead>
+                    <tr>
+                        <th>TimeStamp</th>
+                        <th>Process</th>
+                        <th>Thread</th>
+                        <th>Category</th>
+                        <th>EventID</th>
+                        <th>Level</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {logs}
+                </tbody>
+            </table>);
+    }
+})
+
 /* End - LISTS */
 
 /* DETAILS - detailed views for OcsSession and OcsClientSession */ 
 
 var OcsSession = React.createClass({
+    onShowRequestDetails(request) {
+        this.props.onShowRequestDetails(this.props.ocsSessionDetails.ocsSessionId, request)
+    },
     render: function() {
         let data = this.props.ocsSessionDetails.details;
         if(!data)
@@ -283,9 +366,48 @@ var OcsSession = React.createClass({
                     <OcsClientSessionList ocsClientSessionIds={data.ocsClientSessionIds} />
                 </div>
                 <h2 className="sub-header">Requests</h2>
-                <RequestLists url={requestsDataUrl} />
+                <RequestLists url={requestsDataUrl} onShowRequestDetails={this.onShowRequestDetails} />
             </div>
         );
+    }
+});
+
+var RequestDetailsDialog = React.createClass({
+    render: function() {
+        if(!this.props.requestDetails || !this.props.requestDetails.request)
+            return (<div className="modal fade" id="ulsModal" tabindex="-1" role="dialog" aria-labelledby="ulsModal"></div>);
+
+        let search = window.location.search;
+        if(!search)
+            return;
+
+        let ulsUrl = "/api/uls/" + search.substr(1) + "/" + this.props.requestDetails.request.correlation;
+
+        return(<div className="modal fade" id="ulsModal" tabindex="-1" role="dialog" aria-labelledby="ulsModal">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 className="modal-title" id="ulsModal">{this.props.requestDetails.request.method} request - {this.props.requestDetails.request.correlation}</h4>
+                        </div>
+                        <div className="modal-body">
+                            <h2 className="sub-header">Overview</h2>
+                            <div className="table-responsive">
+                                <table className="table table-striped">
+                                    <RequestListHeaderRow />
+                                    <tbody>
+                                        <RequestListBodyRow detailsOnClick={false} id="details" type="details" request={this.props.requestDetails.request}/>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <h2 className="sub-header">ULS logs</h2>
+                            <div className="table-responsive">
+                                <UlsList url={ulsUrl} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>);
     }
 });
 
@@ -294,8 +416,12 @@ var OcsSession = React.createClass({
 /* CONTAINER - main component which is stiching everything together and getting initial data to display */
 
 var OcsLogExplorer = React.createClass({
+    onShowRequestDetails(ocsSessionId, request) {
+        this.setState({requestDetails: { ocsSessionId: ocsSessionId, request: request }});
+        $('#ulsModal').modal();
+    },
     getInitialState: function() {
-        return {data: [], ocsSessionDetails: {}};
+        return {data: [], ocsSessionDetails: {}, requestDetails: {}};
     },
     componentDidMount: function() {
         let search = window.location.search;
@@ -320,7 +446,8 @@ var OcsLogExplorer = React.createClass({
                 <div className="col-sm-3 col-md-2 sidebar">
                     <OcsSessionList ocsSessions={this.state.data} onOcsSessionSelected={this.onOcsSessionSelected} />
                 </div>
-            <OcsSession ocsSessionDetails={this.state.ocsSessionDetails} />
+            <OcsSession ocsSessionDetails={this.state.ocsSessionDetails} onShowRequestDetails={this.onShowRequestDetails} />
+            <RequestDetailsDialog requestDetails={this.state.requestDetails} />
             </div>
         );
     }

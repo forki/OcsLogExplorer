@@ -28,14 +28,21 @@ module DataStore =
             uls
 
     let getUls path correlation =
-        getUlsFromFile path
-        |> Seq.filter (fun x -> x.LogItem.Correlation = Some correlation)
+        let uls = getUlsFromFile path
+        Console.WriteLine("Extracting correlation data for Correlation:" + correlation.ToString() + " from " + path)
+        
+        uls
+        |> Seq.filter (fun x -> x.LogItem.Correlation = Some correlation && x.LogItem.Level <> ULS.Level.Verbose && x.LogItem.Level <> ULS.Level.VerboseEx)
         |> Seq.map (fun x -> x.LogItem)
 
     let getOverview path =
-        getUlsFromFile path |> OcsLogExplorer.Server.DataExtractors.OcsSessionOverviewExtractor.extract
+        let uls = getUlsFromFile path
+        Console.WriteLine("Extracting overview from " + path)
+        OcsLogExplorer.Server.DataExtractors.OcsSessionOverviewExtractor.extract uls
 
     let getRequests path ocsSessionId =
-        getUlsFromFile path |> OcsLogExplorer.Server.DataExtractors.extract ocsSessionId
+        let uls = getUlsFromFile path
+        Console.WriteLine("Extracting requests for OcsSessionId:" + ocsSessionId.ToString() + " from " + path)
+        OcsLogExplorer.Server.DataExtractors.extract ocsSessionId uls
 
 

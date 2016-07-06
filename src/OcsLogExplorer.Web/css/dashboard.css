@@ -172,3 +172,16 @@ body {
 .filterListRow label {
   font-weight: normal;
 }
+
+.table-striped > tbody > tr.detailsOnClick:hover {
+  cursor: pointer;
+  background: #e7e7e7;
+}
+
+.table-uls .ulsWarning {
+  background-color: darkorange !important;
+}
+
+.table-uls .ulsError {
+  background-color: red !important;
+}
