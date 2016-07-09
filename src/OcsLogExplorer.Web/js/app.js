@@ -6,6 +6,13 @@ function formatDate(dateStr) {
     return new Date(dateStr).toLocaleString()
 }
 
+var Loading = React.createClass({
+    render: function() {
+        return(<p className="loading"><span className="glyphicon glyphicon-refresh glyphicon-refresh-animate">
+  </span> Loading ...</p>);
+    }
+})
+
 var ResponseStatusCodeButton = React.createClass({
     render: function() {
         switch(this.props.statusCode)
@@ -115,11 +122,12 @@ var RequestLists = React.createClass({
             this.fetchData(newProps.url);
     },
     fetchData: function(url) {
+        this.setState({loading: true});
         $.ajax({
             url: url,
             dataType: 'json',
             cache: false,
-            success: function(data) {this.setState({requests: data});}.bind(this),
+            success: function(data) {this.setState({loading: false, requests: data});}.bind(this),
             error: function(jqXHR, status, err) {console.error(url, status, err.toString());}
         });
     },
@@ -127,6 +135,9 @@ var RequestLists = React.createClass({
         alert(filter);
     },
     render: function() {
+        if(this.state.loading)
+            return(<Loading />);
+
         let requests = this.state.requests;
         if(!requests)
             return false;
@@ -281,11 +292,12 @@ var UlsList = React.createClass({
             this.fetchData(newProps.url);
     },
     fetchData: function(url) {
+        this.setState({loading: true});
         $.ajax({
             url: url,
             dataType: 'json',
             cache: false,
-            success: function(data) {this.setState({uls: data});}.bind(this),
+            success: function(data) {this.setState({loading: false, uls: data});}.bind(this),
             error: function(jqXHR, status, err) {console.error(url, status, err.toString());}
         });
     },
@@ -293,6 +305,9 @@ var UlsList = React.createClass({
         alert(filter);
     },
     render: function() {
+        if(this.state.loading)
+            return(<Loading />);
+
         let uls = this.state.uls;
         if(!uls)
             return false;
@@ -429,11 +444,13 @@ var OcsLogExplorer = React.createClass({
             return;
 
         let url = "/api/overview/" + search.substr(1);
+        this.setState({loading: true});
+
         $.ajax({
             url: url,
             dataType: 'json',
             cache: false,
-            success: function(data) {this.setState({data: data});}.bind(this),
+            success: function(data) {this.setState({loading: false, data: data});}.bind(this),
             error: function(jqXHR, status, err) {console.error(this.props.url, status, err.toString());}.bind(this)
         });
     },
@@ -441,6 +458,9 @@ var OcsLogExplorer = React.createClass({
         this.setState({ocsSessionDetails: ocsSessionDetails});
     },
     render: function() {
+        if(this.state.loading)
+            return(<Loading />);
+
         return (
             <div className="row">
                 <div className="col-sm-3 col-md-2 sidebar">
