@@ -102,5 +102,16 @@ module WebService =
 
     [<EntryPoint>]
     let Main args =
-        startWebServer defaultConfig app
+        let cts = new System.Threading.CancellationTokenSource()
+
+        let startingServer, shutdownServer = startWebServerAsync defaultConfig app
+        Async.Start(shutdownServer, cts.Token)
+
+        startingServer |> Async.RunSynchronously |> printfn "started: %A"
+
+        System.Diagnostics.Process.Start("http://localhost:8083") |> ignore
+
+        Console.Read() |> ignore
+
+        cts.Cancel()
         1
