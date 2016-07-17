@@ -211,7 +211,7 @@ var RequestListFilters = React.createClass({
         let type = this.props.type;
 
         return(
-            <div className="filterList">
+            <div className="requestsFilterList">
                 <button onClick={function(e) {this.hideOkSuccessChanged(e);}.bind(this)} className="btn btn-warning" data-toggle="button" aria-pressed="false" autocomplete="off">Hide OK/Success</button>
             </div>
         );
@@ -282,7 +282,28 @@ var RequestList = React.createClass({
     }
 })
 
+var UlsListFilters = React.createClass({
+    warningsAndAbove: function(e) {
+        var currentFilter = {
+            warningsAndAbove: e.target.className.split(' ').indexOf("active") > -1
+        }
+        this.props.onFilterChanged(currentFilter);
+    },
+    render: function() {
+        let type = this.props.type;
+
+        return(
+            <div className="ulsFilterList">
+                <button onClick={function(e) {this.warningsAndAbove(e);}.bind(this)} className="btn btn-warning" data-toggle="button" aria-pressed="false" autocomplete="off">Show warnings and above only</button>
+            </div>
+        );
+    }
+});
+
 var UlsList = React.createClass({
+    onFilterChanged: function(filter) {
+        this.setState({filters: filter});
+    },
     getUlsClassName: function(level) {
         if(level == "Medium")
             return "";
@@ -291,7 +312,7 @@ var UlsList = React.createClass({
         return "ulsError";
     },
     getInitialState: function() {
-        return {logs: []};
+        return {logs: [], filters: {}};
     },
     componentDidMount: function() {
         this.fetchData(this.props.url);
@@ -310,8 +331,15 @@ var UlsList = React.createClass({
             error: function(jqXHR, status, err) {this.setState({loading: false});console.error(url, status, err.toString());}
         });
     },
-    onAllRequestsListFilterchanged: function(filter) {
-        alert(filter);
+    filterUls: function(uls) {
+        let filters = this.state.filters;
+        if(!filters)
+            return uls;
+
+        return uls.filter(function(log) {
+            if(filters.warningsAndAbove && log.level.__Case == "Medium")
+                return false;
+            return true; });
     },
     render: function() {
         if(this.state.loading)
@@ -320,6 +348,8 @@ var UlsList = React.createClass({
         let uls = this.state.uls;
         if(!uls)
             return false;
+        
+        uls = this.filterUls(uls);
 
         var logs = uls.map(function(log, id) {
                 return(
@@ -335,22 +365,28 @@ var UlsList = React.createClass({
             }.bind(this));
 
         return(
-            <table className="table table-striped table-uls">
-                <thead>
-                    <tr>
-                        <th>TimeStamp</th>
-                        <th>Process</th>
-                        <th>Thread</th>
-                        <th>Category</th>
-                        <th>EventID</th>
-                        <th>Level</th>
-                        <th>Message</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {logs}
-                </tbody>
-            </table>);
+            <div className="ulsContainer">
+                <UlsListFilters onFilterChanged={this.onFilterChanged} />
+                <h2 className="sub-header">ULS logs</h2>
+                <div className="table-responsive">
+                    <table className="table table-striped table-uls">
+                        <thead>
+                            <tr>
+                                <th>TimeStamp</th>
+                                <th>Process</th>
+                                <th>Thread</th>
+                                <th>Category</th>
+                                <th>EventID</th>
+                                <th>Level</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {logs}
+                        </tbody>
+                    </table>
+                </div>
+            </div>);
     }
 })
 
@@ -424,10 +460,7 @@ var RequestDetailsDialog = React.createClass({
                                     </tbody>
                                 </table>
                             </div>
-                            <h2 className="sub-header">ULS logs</h2>
-                            <div className="table-responsive">
-                                <UlsList url={ulsUrl} />
-                            </div>
+                            <UlsList url={ulsUrl} />
                         </div>
                     </div>
                 </div>

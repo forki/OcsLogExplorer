@@ -138,14 +138,21 @@ body {
 	width: 90%;
 }
 
-.filterList {
+.requestsFilterList {
     position: absolute;
     right: 0;
     top: -2px;
     text-align: right;
 }
 
-.requestsContainer {
+.ulsFilterList {
+    position: absolute;
+    right: 0;
+    top: -9px;
+    text-align: right;
+}
+
+.ulsContainer, .requestsContainer {
   position: relative;
 }
 
