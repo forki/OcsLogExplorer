@@ -109,7 +109,9 @@ module WebService =
 
         startingServer |> Async.RunSynchronously |> printfn "started: %A"
 
-        System.Diagnostics.Process.Start("http://localhost:8083") |> ignore
+        match args |> Array.contains "-noBrowser" with
+        | true-> ()
+        | false -> System.Diagnostics.Process.Start("http://localhost:8083") |> ignore
 
         Console.Read() |> ignore
 

@@ -1,5 +1,11 @@
 /* UTILS - helper components and functions used all over the place */
 
+function getRequestType(method) {
+    if(method === "Synchronize" || method === "StartSession")
+        return "outerLoop";
+    return "mocsi";
+}
+
 function formatDate(dateStr) {
     if(dateStr === undefined)
         return;
@@ -111,8 +117,11 @@ var OcsClientSessionList = React.createClass({
 });
 
 var RequestLists = React.createClass({
+    onFilterChanged: function(filter) {
+        this.setState({filters: filter});
+    },
     getInitialState: function() {
-        return {requests: []};
+        return {requests: [], filters: {}};
     },
     componentDidMount: function() {
         this.fetchData(this.props.url);
@@ -128,11 +137,28 @@ var RequestLists = React.createClass({
             dataType: 'json',
             cache: false,
             success: function(data) {this.setState({loading: false, requests: data});}.bind(this),
-            error: function(jqXHR, status, err) {console.error(url, status, err.toString());}
+            error: function(jqXHR, status, err) {this.setState({loading: false});console.error(url, status, err.toString());}
         });
     },
     onAllRequestsListFilterchanged: function(filter) {
         alert(filter);
+    },
+    filterRequests: function(requests) {
+        var filters = this.state.filters;
+
+        if(!filters)
+            return requests;
+
+        var filterRequest = function(request) {
+            var requestType = getRequestType(request.method);
+            if(filters.hideOkSuccess 
+                && ((requestType == "outerLoop" && request.statusCode == 200 && request.result)
+                    || (requestType == "mocsi" && request.statusCode == 200)))
+                    return false;
+
+            return true;
+        }
+        return requests.filter(filterRequest);
     },
     render: function() {
         if(this.state.loading)
@@ -142,8 +168,11 @@ var RequestLists = React.createClass({
         if(!requests)
             return false;
 
+        requests = this.filterRequests(requests);
+
         return(
-            <div>
+            <div className="requestsContainer">
+                <RequestListFilters onFilterChanged={this.onFilterChanged} />
                 <ul className="nav nav-tabs" role="tablist">
                     <li role="presentation" className="active">
                         <a href="#all" id="all-tab" aria-controls="all" role="tab" data-toggle="tab">All</a>
@@ -172,33 +201,18 @@ var RequestLists = React.createClass({
 })
 
 var RequestListFilters = React.createClass({
+    hideOkSuccessChanged: function(e) {
+        var currentFilter = {
+            hideOkSuccess: e.target.className.split(' ').indexOf("active") > -1
+        }
+        this.props.onFilterChanged(currentFilter);
+    },
     render: function() {
         let type = this.props.type;
 
         return(
             <div className="filterList">
-                <p className="filterListRow">
-                    <strong>StatusCode:</strong>
-                    <label>OK</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                    <label>BadRequest</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                    <label>BadWopiSrc</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                    <label>BadOverride</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                    <label>NoSupportedFormat</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                    <label>NoSession</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                    <label>ServerError</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                    <label>ServerBusy</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                </p>
-                <p className="filterListRow">
-                    <strong>RequestType:</strong>
-                    <label>JoinSession</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                    <label>UpdateRevision</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                    <label>GetRevision</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                    <label>PutBlobs</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                    <label>GetBlobs</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                    <label>LeaveSession</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                    <label>StartSession</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                    <label>Synchronize</label><input type="checkbox" defaultChecked="checked" className="filterListCheckbox" />
-                </p>
+                <button onClick={function(e) {this.hideOkSuccessChanged(e);}.bind(this)} className="btn btn-warning" data-toggle="button" aria-pressed="false" autocomplete="off">Hide OK/Success</button>
             </div>
         );
     }
@@ -247,11 +261,6 @@ var RequestList = React.createClass({
         if(requests === undefined)
         return false;
 
-        let getRequestType = function(method) {
-            if(method === "Synchronize" || method === "StartSession")
-                return "outerLoop";
-            return "mocsi";
-        }
         let showRequest = function(request) {
             return this.props.type === undefined || this.props.type == getRequestType(request.method)
         }.bind(this);
@@ -298,7 +307,7 @@ var UlsList = React.createClass({
             dataType: 'json',
             cache: false,
             success: function(data) {this.setState({loading: false, uls: data});}.bind(this),
-            error: function(jqXHR, status, err) {console.error(url, status, err.toString());}
+            error: function(jqXHR, status, err) {this.setState({loading: false});console.error(url, status, err.toString());}
         });
     },
     onAllRequestsListFilterchanged: function(filter) {

@@ -140,10 +140,13 @@ body {
 
 .filterList {
     position: absolute;
-    height: 40px;
     right: 0;
-    top: -47px;
+    top: -2px;
     text-align: right;
+}
+
+.requestsContainer {
+  position: relative;
 }
 
 .filterListRow {
